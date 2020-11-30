@@ -1,0 +1,64 @@
+server:
+  port: 8088
+
+LOG_PATH: logs/dataCalwe
+
+#mongoDB配置
+spring:
+  application:
+    name: crawler
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/bidding?autoReconnect=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+#    url: jdbc:mysql://192.168.110.36:3306/bidding?autoReconnect=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: 111111
+#    password: boren2018
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  thymeleaf:
+    enabled: true
+    encoding: utf-8
+    prefix: classpath:/templates/
+    cache: false
+    mode: HTML5
+    suffix: .html
+
+
+# mongodb
+#  data:
+#    mongodb:
+#      host: localhost
+#      port: 27017
+#      database: Bidding
+
+#logging:
+#  level:
+#    root: debug
+
+# mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com/wh/yaofangwang/model/bid
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

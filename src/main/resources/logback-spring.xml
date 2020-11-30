@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+	<property resource="application.yml"  />
+	<if condition='property("os.name").toUpperCase().contains("WINDOWS")'>
+		<then>
+			<property name="LOG_PATH" value="E://${LOG_PATH}"/>
+		</then>
+	</if>
+
+	<!--    下面这句话意思是保留springboot原先的日志配置，要不然后面日志打不出来了-->
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	<!--<appender name="mylog" class="com.his.common.config.logPush.MyLogBackAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			&lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 &ndash;&gt;
+			<pattern>%d{@riqi@yyyy-MM-dd HH:mm:ss.SSS@riqi@} @xiancheng@[%thread]@xiancheng@ @dengji@%-5level@dengji@ @bao@%logger{50}@bao@ - %msg%n</pattern>
+		</layout>
+	</appender>-->
+
+	<!-- appender -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] - %m%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<!-- 系统日志配置 -->
+	<appender name="sysLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/sys.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/sys-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<appender name="daoLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/dao.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/dao-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%d{yyyyMMdd HH:mm:ss}] [%thread] [%-5level] [%-30logger{0}][%-3L]
+				[SeqId:%X{SeqId}] - %m%n
+			</Pattern>
+		</encoder>
+	</appender>
+	<appender name="serviceLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/service.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/service-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<appender name="controllerLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/controller.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/controller-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="operationLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/operation.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/operation-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<appender name="jobLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/job.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/job-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<appender name="performanceLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/performance.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/performance-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<appender name="httpLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/http.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/http-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<appender name="esignLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/esign.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/esign-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<appender name="smsLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/sms.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/%d{yyyyMMdd}/sms-%d{yyyyMMdd}.log
+			</FileNamePattern>
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<ImmediateFlush>true</ImmediateFlush>
+			<charset>utf-8</charset>
+			<Pattern>[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{80} %line - %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<!--cat监控与logback集成-->
+	<!--<appender name="catLogAppender" class="com.dianping.cat.logback.CatLogbackAppender">
+
+	</appender>-->
+
+	<!--elk监控与logback集成-->
+	<!--<appender name="elkLogAppender" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>127.0.0.1:9601</destination>
+		&lt;!&ndash; encoder必须配置,有多种可选 &ndash;&gt;
+		<encoder charset="UTF-8"  class="net.logstash.logback.encoder.LogstashEncoder" >
+			&lt;!&ndash; "appname":"elk_test" 的作用是指定创建索引的名字时用，并且在生成的文档中会多了这个字段  &ndash;&gt;
+			<customFields>{"appname":"his_test_40"}</customFields>
+		</encoder>
+	</appender>-->
+
+	<!--异步打印-->
+	<appender name = "ASYNC" class = "ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<includeCallerData>true</includeCallerData>
+		<queueSize>1024</queueSize>
+		<neverBlock>true</neverBlock>
+		<appender-ref ref="sysLogAppender"/>
+	</appender>
+
+	<!-- additivity为false不向root控制台输出 -->
+	<logger name="sysLog" additivity="false" level="info">
+		<appender-ref ref="stdout"/>
+		<!--<appender-ref ref="mylog"/>-->
+		<!--<appender-ref ref="sysLogAppender"/>-->
+		<appender-ref ref="ASYNC"/>
+	</logger>
+	<logger name="daoLog" additivity="false" level="ERROR">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="daoLogAppender"/>
+	</logger>
+	<logger name="serviceLog" additivity="false" level="ERROR">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="serviceLogAppender"/>
+	</logger>
+	<logger name="controllerLog" additivity="false" level="INFO">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="controllerLogAppender"/>
+	</logger>
+	<logger name="operationLog" additivity="false" level="INFO">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="operationLogAppender"/>
+	</logger>
+	<logger name="performanceLog" additivity="false" level="INFO">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="performanceLogAppender"/>
+	</logger>
+	<logger name="jobLog" additivity="false" level="INFO">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="jobLogAppender"/>
+	</logger>
+	<logger name="httpLog" additivity="false" level="INFO">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="httpLogAppender"/>
+	</logger>
+	<logger name="esignLog" additivity="false" level="INFO">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="esignLogAppender"/>
+	</logger>
+	<logger name="smsLog" additivity="false" level="INFO">
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="smsLogAppender"/>
+	</logger>
+	<!--cat logger-->
+	<!--<logger name="catLog" additivity="false" level="INFO">
+		<appender-ref ref="catLogAppender"/>
+	</logger>-->
+	<!--elk logger-->
+	<!--<logger name="elkLog" additivity="false" level="INFO">
+		<appender-ref ref="elkLogAppender"/>
+	</logger>-->
+
+
+	<!-- root 默认日志配置 -->
+	<root level="info">
+		<appender-ref ref="stdout"/>
+		<!--<appender-ref ref="mylog"/>-->
+		<appender-ref ref="sysLogAppender"/>
+	</root>
+	<logger name="org.springframework" level="INFO"/>
+</configuration>
